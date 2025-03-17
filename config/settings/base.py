@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     
     # Third party apps
+    'allauth',  # django-allauth
+    'allauth.account',  # django-allauth account
+    'allauth.socialaccount',  # django-allauth social account
     'avatar',  # django-avatar
     'notifications',  # django-notifications-hq
     'django_pagination_bootstrap',  # django-pagination-bootstrap
@@ -82,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_pagination_bootstrap.middleware.PaginationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -220,8 +224,9 @@ ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 ACCOUNT_USERNAME_BLACKLIST = []
 ACCOUNT_USERNAME_MIN_LENGTH = 1
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+ACCOUNT_RATE_LIMITS = {
+    'login_failed': '5/5m',  # 5 attempts per 5 minutes
+}
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_SESSION_REMEMBER = None
@@ -278,4 +283,5 @@ SITE_ID = 1
 DEBUG=True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com']
+
 # ... existing code ... 

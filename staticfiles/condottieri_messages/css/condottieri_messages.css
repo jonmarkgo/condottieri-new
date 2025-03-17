@@ -1,0 +1,50 @@
+#mail {
+	margin: 1em;
+}
+
+#mail table {
+	width: 90%;
+	table-layout: auto;
+}
+
+.unread:before {
+	content: "\00BB \0020";
+}
+
+.unread {
+	font-weight: bold;
+}
+
+.unread a, .unread a:visited {
+	color: #c74223; 
+}
+
+.excom_notice {
+	background: #ffdfdf;
+	border: 1px solid #df7d7d;
+	border-width: 1px 0;
+	margin: 0 0 1.5em 0;
+	padding: 7px;
+	color: #000000;
+}
+
+#letter {
+	margin: 1em;
+	padding: 1em;
+	border-left: solid 1px #000;
+	background: url('../img/letter-paper.png');
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+#letter h2 {
+	margin-top: 0em;
+	font-size: large;
+}
+
+#letter_body p {
+	margin-top: 1em;
+	margin-left: 0.5em;
+	text-indent: 2em;
+	font-size: 120%;
+	color: #582c0c;
+}

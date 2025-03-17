@@ -1,0 +1,55 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block head_title %}{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'machiavelli/css/base.css' %}" />
+    {% block extra_head_base %}{% endblock %}
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <div class="logo">
+                {% block logo_link_image %}{% endblock %}
+            </div>
+            <div class="login">
+                {% block login %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div id="nav">
+        <div class="container">
+            {% block right_tabs %}{% endblock %}
+        </div>
+    </div>
+
+    <div id="subnav">
+        <div class="container">
+            {% block subnav %}{% endblock %}
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="container">
+            <div class="content">
+                {% block main_content %}{% endblock %}
+            </div>
+            <div class="sidebar">
+                {% block sidebar %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            {% block footer %}{% endblock %}
+        </div>
+    </div>
+
+    {% block extra_body_base %}{% endblock %}
+</body>
+</html> 
