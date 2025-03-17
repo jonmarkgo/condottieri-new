@@ -1,0 +1,21 @@
+[submodule "machiavelli"]
+	path = machiavelli
+	url = git@github.com:jonmarkgo/machiavelli.git
+[submodule "condottieri_common"]
+	path = condottieri_common
+	url = git@github.com:jonmarkgo/condottieri_common.git
+[submodule "condottieri_events"]
+	path = condottieri_events
+	url = git@github.com:jonmarkgo/condottieri_events.git
+[submodule "condottieri_profiles"]
+	path = condottieri_profiles
+	url = git@github.com:jonmarkgo/condottieri_profiles.git
+[submodule "condottieri_messages"]
+	path = condottieri_messages
+	url = git@github.com:jonmarkgo/condottieri_messages.git
+[submodule "condottieri_scenarios"]
+	path = condottieri_scenarios
+	url = git@github.com:jonmarkgo/condottieri_scenarios.git
+[submodule "condottieri_notification"]
+	path = condottieri_notification
+	url = git@github.com:jonmarkgo/condottieri_notification.git
