@@ -275,4 +275,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Site ID
 SITE_ID = 1
 
+DEBUG=True
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com']
 # ... existing code ... 

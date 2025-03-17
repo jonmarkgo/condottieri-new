@@ -10,6 +10,10 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
     print("Python path:", sys.path, file=sys.stderr)
     print("Current directory:", os.getcwd(), file=sys.stderr)
+
+    # Import our compatibility layer before Django setup
+    import condottieri_common.translation_compat
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
