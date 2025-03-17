@@ -5,6 +5,27 @@ import os
 from pathlib import Path
 import environ
 
+# Compatibility patches for older Django code
+from django.utils import encoding
+def python_2_unicode_compatible(klass):
+    """Compatibility decorator for Python 2/3 string handling"""
+    return klass
+encoding.python_2_unicode_compatible = python_2_unicode_compatible
+
+from django.utils import datastructures
+from collections import OrderedDict
+class SortedDict(OrderedDict):
+    """Compatibility class for older Django code"""
+    def __new__(cls, *args, **kwargs):
+        instance = super(SortedDict, cls).__new__(cls, *args, **kwargs)
+        instance.keyOrder = []
+        return instance
+    def __init__(self, data=None):
+        super(SortedDict, self).__init__()
+        if data:
+            self.update(data)
+datastructures.SortedDict = SortedDict
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -24,54 +45,43 @@ DEBUG = env.bool('DJANGO_DEBUG', default=False)
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
 
 # Application definition
-DJANGO_APPS = [
+INSTALLED_APPS = [
+    # Local apps - common must be first for compatibility layers
+    'condottieri_common',
+
+    # Django core apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
     'django.contrib.sites',
-]
-
-THIRD_PARTY_APPS = [
-    'modeltranslation',  # Must be before django.contrib.admin
-    'debug_toolbar',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'notifications',
-    'mailer',
-    'markdownx',
-    'widget_tweaks',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'avatar',  # User avatars
-]
-
-LOCAL_APPS = [
-    'machiavelli',
+    
+    # Third party apps
+    'avatar',  # django-avatar
+    'notifications',  # django-notifications-hq
+    'django_pagination_bootstrap',  # django-pagination-bootstrap
+    'transmeta',
+    'django_messages',  # django-messages
+    
+    # Local apps
     'condottieri_profiles',
     'condottieri_messages',
     'condottieri_events',
-    'condottieri_common',
     'condottieri_scenarios',
-    'condottieri_notification',
+    'machiavelli',
 ]
-
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    'django_pagination_bootstrap.middleware.PaginationMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -79,7 +89,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +97,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'machiavelli.context_processors.games',
             ],
         },
     },
@@ -127,37 +136,42 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+    ('en', 'English'),
+    ('es', 'Spanish'),
+)
+
 TIME_ZONE = 'UTC'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
-
-# django-modeltranslation settings
-gettext = lambda s: s
-LANGUAGES = [
-    ('en', gettext('English')),
-    ('es', gettext('Spanish')),
-    ('it', gettext('Italian')),
-]
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_LANGUAGES = ('en', 'es', 'it')
-MODELTRANSLATION_FALLBACK_LANGUAGES = ('en', 'es', 'it')
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Scenarios
-SCENARIOS_ROOT = 'machiavelli'
+SCENARIOS_ROOT = 'scenarios'
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Auth settings
+AUTH_PROFILE_MODULE = 'condottieri_profiles.CondottieriProfile'
+LOGIN_REDIRECT_URL = 'summary'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Sites framework
+SITE_ID = 1
+
+# Import karma settings
+from .karma import *
 
 # Authentication
 LOGIN_URL = 'login'
@@ -215,9 +229,6 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-# Site ID
-SITE_ID = 1
-
 # Profile settings
 SIGNATURE_MAX_LENGTH = 1024  # Maximum length for user signatures
 KARMA_DEFAULT = 100  # Default karma for new users
@@ -257,6 +268,9 @@ CACHE_BACKEND = env('CACHE_BACKEND', default='locmem://')
 DJANGO_NOTIFICATIONS_CONFIG = {
     'USE_JSONFIELD': True,
 }
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID
 SITE_ID = 1
