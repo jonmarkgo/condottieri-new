@@ -39,7 +39,7 @@ THIRD_PARTY_APPS = [
     'modeltranslation',  # Must be before django.contrib.admin
     'debug_toolbar',
     'crispy_forms',
-    'django_pagination_bootstrap',
+    'crispy_bootstrap5',
     'notifications',
     'mailer',
     'markdownx',
@@ -71,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -98,7 +99,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///condottieri')
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'condottieri',
+        'USER': 'postgres',
+        'PASSWORD': 'abc123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -193,6 +201,57 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+ACCOUNT_USERNAME_BLACKLIST = []
+ACCOUNT_USERNAME_MIN_LENGTH = 1
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+# Site ID
+SITE_ID = 1
+
+# Profile settings
+SIGNATURE_MAX_LENGTH = 1024  # Maximum length for user signatures
+KARMA_DEFAULT = 100  # Default karma for new users
+KARMA_MAXIMUM = 200  # Maximum karma a user can have
+KARMA_MINIMUM = 10  # Minimum karma a user can have
+KARMA_TO_JOIN = 50  # Minimum karma required to join a game
+KARMA_TO_FAST = 75  # Minimum karma required to join a fast game
+KARMA_TO_PRIVATE = 100  # Minimum karma required to create a private game
+KARMA_TO_UNLIMITED = 200  # Minimum karma required to play unlimited games
+GAMES_LIMIT = 3  # Maximum number of games a user can play simultaneously
+SURRENDER_KARMA = -10  # Karma penalty for surrendering
+DEFAULT_AUTOSUBSCRIBE = True  # Automatically subscribe to topics that you answer
+
+# Game settings
+BONUS_TIME = 0.2  # Percentage of time limit when karma bonus is awarded
+
+# Account settings
+ACCOUNT_OPEN_SIGNUP = env.bool('ACCOUNT_OPEN_SIGNUP', default=False)
+ACCOUNT_REQUIRED_EMAIL = env.bool('ACCOUNT_REQUIRED_EMAIL', default=True)
+ACCOUNT_EMAIL_VERIFICATION = env.bool('ACCOUNT_EMAIL_VERIFICATION', default=False)
+ACCOUNT_EMAIL_AUTHENTICATION = env.bool('ACCOUNT_EMAIL_AUTHENTICATION', default=False)
+EMAIL_CONFIRMATION_UNIQUE_EMAIL = ACCOUNT_UNIQUE_EMAIL
+
+# Authentication settings
+LOGIN_REDIRECT_URLNAME = "summary"
+
+# Clones detection
+IP_HEADER = env('IP_HEADER', default='HTTP_X_FORWARDED_FOR')
+
+# Notification settings
+NOTIFICATION_QUEUE_ALL = env.bool('NOTIFICATION_QUEUE_ALL', default=True)
+
+# Cache settings
+CACHE_BACKEND = env('CACHE_BACKEND', default='locmem://')
 
 # Django Notifications
 DJANGO_NOTIFICATIONS_CONFIG = {
@@ -202,15 +261,4 @@ DJANGO_NOTIFICATIONS_CONFIG = {
 # Site ID
 SITE_ID = 1
 
-# Profile settings
-SIGNATURE_MAX_LENGTH = 1024  # Maximum length for user signatures
-KARMA_DEFAULT = 100  # Default karma for new users
-KARMA_MAXIMUM = 1000  # Maximum karma a user can have
-KARMA_MINIMUM = 0  # Minimum karma a user can have
-KARMA_TO_JOIN = 50  # Minimum karma required to join a game
-KARMA_TO_FAST = 75  # Minimum karma required to join a fast game
-KARMA_TO_PRIVATE = 100  # Minimum karma required to create a private game
-KARMA_TO_UNLIMITED = 200  # Minimum karma required to play unlimited games
-GAMES_LIMIT = 3  # Maximum number of games a user can play simultaneously
-SURRENDER_KARMA = -10  # Karma penalty for surrendering
-DEFAULT_AUTOSUBSCRIBE = True  # Automatically subscribe to topics that you answer 
+# ... existing code ... 

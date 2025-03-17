@@ -6,7 +6,10 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+    print("Setting DJANGO_SETTINGS_MODULE to config.settings", file=sys.stderr)
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+    print("Python path:", sys.path, file=sys.stderr)
+    print("Current directory:", os.getcwd(), file=sys.stderr)
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -19,4 +22,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main() 

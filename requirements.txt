@@ -1,41 +1,9 @@
-# Core
-Django==5.0.3
-django-environ==0.12.0
-python-dotenv==1.0.1
-django-modeltranslation==0.19.12  # Modern translation framework
-django-avatar==8.0.1  # User avatars
-
-# Database
-psycopg2-binary==2.9.10
-
-# Images
-Pillow==11.1.0
-
-# Development
-django-debug-toolbar==4.3.0
-
-# Testing
-pytest==8.1.1
-pytest-django==4.8.0
-coverage==7.4.4
-
-# Code quality
-flake8==7.0.0
-black==24.2.0
-isort==5.13.2
-
-# Documentation
-Sphinx==7.2.6
-sphinx-rtd-theme==2.0.0
-
-# Additional dependencies (modern equivalents)
-python-dateutil==2.8.2
-pytz==2024.1
-Markdown==3.5.2
-django-crispy-forms==2.1  # Modern replacement for django-uni-form
-django-pagination-bootstrap==2.4.6  # Modern replacement for django-pagination
-django-notifications-hq==1.8.3  # Modern replacement for django-notification
-django-mailer==2.3.2
-django-markdownx==4.0.7  # Modern markdown editor with image uploads
-django-widget-tweaks==1.5.0  # Useful for form rendering
-django-allauth==0.61.1  # Modern authentication (includes email confirmation) 
+Django>=3.2,<4.0
+django-notifications-hq>=1.8.0
+django-avatar>=7.1.1
+django-pagination-bootstrap>=2.4.6
+python-dateutil>=2.8.2
+Markdown>=3.4.3
+Pillow>=9.5.0
+pytz
+psycopg2-binary>=2.9.9 
