@@ -66,7 +66,9 @@ INSTALLED_APPS = [
     'notifications',  # django-notifications-hq
     'django_pagination_bootstrap',  # django-pagination-bootstrap
     'transmeta',
-    'django_messages',  # django-messages
+    'django_messages',  # Required by condottieri_messages
+    'crispy_forms',  # django-crispy-forms
+    'crispy_bootstrap4',  # django-crispy-forms bootstrap4
     
     # Local apps
     'condottieri_profiles',
@@ -75,6 +77,11 @@ INSTALLED_APPS = [
     'condottieri_scenarios',
     'machiavelli',
 ]
+
+# Crispy Forms settings
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,7 +100,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            '/home/jonmarkgo/.local/share/mise/installs/python/3.11.11/lib/python3.11/site-packages/crispy_forms/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -178,37 +188,9 @@ SITE_ID = 1
 from .karma import *
 
 # Authentication
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-
-# Email configuration
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-
-# Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-}
-
-# Crispy Forms
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'summary'
+LOGOUT_REDIRECT_URL = 'summary'
 
 # Django AllAuth
 AUTHENTICATION_BACKENDS = [
@@ -216,9 +198,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 ACCOUNT_USERNAME_BLACKLIST = []
@@ -233,6 +215,7 @@ ACCOUNT_SESSION_REMEMBER = None
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_SIGNUP_REDIRECT_URL = 'summary'
 
 # Profile settings
 SIGNATURE_MAX_LENGTH = 1024  # Maximum length for user signatures
@@ -249,13 +232,6 @@ DEFAULT_AUTOSUBSCRIBE = True  # Automatically subscribe to topics that you answe
 
 # Game settings
 BONUS_TIME = 0.2  # Percentage of time limit when karma bonus is awarded
-
-# Account settings
-ACCOUNT_OPEN_SIGNUP = env.bool('ACCOUNT_OPEN_SIGNUP', default=False)
-ACCOUNT_REQUIRED_EMAIL = env.bool('ACCOUNT_REQUIRED_EMAIL', default=True)
-ACCOUNT_EMAIL_VERIFICATION = env.bool('ACCOUNT_EMAIL_VERIFICATION', default=False)
-ACCOUNT_EMAIL_AUTHENTICATION = env.bool('ACCOUNT_EMAIL_AUTHENTICATION', default=False)
-EMAIL_CONFIRMATION_UNIQUE_EMAIL = ACCOUNT_UNIQUE_EMAIL
 
 # Authentication settings
 LOGIN_REDIRECT_URLNAME = "summary"
@@ -283,5 +259,24 @@ SITE_ID = 1
 DEBUG=True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com']
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = ['https://local.jonmarkgo.com']
+CSRF_COOKIE_DOMAIN = 'local.jonmarkgo.com'
+CSRF_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = True
+
+# Session settings
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_DOMAIN = 'local.jonmarkgo.com'
+
+# Security settings
+SECURE_SSL_REDIRECT = False  # Set to True in production
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
 
 # ... existing code ... 

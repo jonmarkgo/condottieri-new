@@ -1,7 +1,10 @@
+# Django and core dependencies
 Django>=3.2,<4.0
 django-notifications-hq>=1.8.0
 django-avatar>=7.1.1
 django-pagination-bootstrap>=2.4.6
+django-crispy-forms>=1.14.0,<2.1
+crispy-bootstrap4==2022.1
 python-dateutil>=2.8.2
 Markdown>=3.4.3
 Pillow>=9.5.0
