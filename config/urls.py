@@ -5,14 +5,13 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', include('machiavelli.urls', namespace='machiavelli')),  # This includes the summary view as '/'
+    path('', include('machiavelli.urls')),  # Root URL pattern without namespace
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('notifications/', include('notifications.urls')),
     path('profiles/', include('condottieri_profiles.urls', namespace='profiles')),
     path('avatar/', include('avatar.urls')),
-    path('messages/', include('django_messages.urls')),  # Base messaging system
-    path('messages/', include('condottieri_messages.urls')),  # Extended messaging features
+    path('mail/', include('condottieri_messages.urls', namespace='condottieri_messages')),  # Extended messaging features
     path('scenarios/', include('condottieri_scenarios.urls', namespace='scenarios')),  # Scenarios app
     path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

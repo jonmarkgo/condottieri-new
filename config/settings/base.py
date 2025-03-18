@@ -174,9 +174,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Scenarios
 SCENARIOS_ROOT = 'scenarios'
 
+# Maps
+MAPS_ROOT = os.path.join('static', 'machiavelli', 'img')
+
 # Auth settings
 AUTH_PROFILE_MODULE = 'condottieri_profiles.CondottieriProfile'
-LOGIN_REDIRECT_URL = 'summary'
+LOGIN_REDIRECT_URL = 'machiavelli:summary'
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -189,8 +192,8 @@ from .karma import *
 
 # Authentication
 LOGIN_URL = 'account_login'
-LOGIN_REDIRECT_URL = 'summary'
-LOGOUT_REDIRECT_URL = 'summary'
+LOGIN_REDIRECT_URL = 'machiavelli:summary'
+LOGOUT_REDIRECT_URL = 'machiavelli:summary'
 
 # Django AllAuth
 AUTHENTICATION_BACKENDS = [
@@ -215,7 +218,7 @@ ACCOUNT_SESSION_REMEMBER = None
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_SIGNUP_REDIRECT_URL = 'summary'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'machiavelli:summary'
 
 # Profile settings
 SIGNATURE_MAX_LENGTH = 1024  # Maximum length for user signatures
@@ -234,7 +237,7 @@ DEFAULT_AUTOSUBSCRIBE = True  # Automatically subscribe to topics that you answe
 BONUS_TIME = 0.2  # Percentage of time limit when karma bonus is awarded
 
 # Authentication settings
-LOGIN_REDIRECT_URLNAME = "summary"
+LOGIN_REDIRECT_URLNAME = "machiavelli:summary"
 
 # Clones detection
 IP_HEADER = env('IP_HEADER', default='HTTP_X_FORWARDED_FOR')
@@ -261,7 +264,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://local.jonmarkgo.com',
     'http://local.jonmarkgo.com',
     'https://local.jonmarkgo.com:443',
-    'http://local.jonmarkgo.com:80'
+    'http://local.jonmarkgo.com:80',
+    'http://3018local:8000'
 ]
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_DOMAIN = 'local.jonmarkgo.com'

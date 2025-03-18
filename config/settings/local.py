@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-development-key-change-this-in-production'
 DEBUG = True
 
 # Development hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com','3018local']
 
 # Development security settings - override production settings for local dev
 CSRF_COOKIE_SECURE = False

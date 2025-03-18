@@ -21,7 +21,7 @@
 {% block login %}
     {% if user.is_authenticated %}
         <b>{{ user.username }}</b> |
-        <a href="{% url 'messages_inbox' %}">{% trans "Messages" %}</a> |
+        <a href="{% url 'condottieri_messages:inbox' %}">{% trans "Messages" %}</a> |
         <a href="{% url 'account_email' %}">{% trans "Account" %}</a> |
         {% if user.is_staff %}<a href="/admin/">{% trans "Admin" %}</a> |{% endif %}
         <a href="{% url 'account_logout' %}">{% trans "Logout" %}</a>
@@ -40,7 +40,8 @@
             <li id="tab_machiavelli"><a href="{% url 'machiavelli:summary' %}">{% trans "Games" %}</a></li>
             {% if user.is_authenticated %}
             <li id="tab_new_game"><a href="{% url 'machiavelli:new_game' %}">{% trans "New Game" %}</a></li>
-            <li id="tab_messages"><a href="{% url 'messages_inbox' %}">{% trans "Messages" %}</a></li>
+            <li id="tab_messages"><a href="{% url 'condottieri_messages:inbox' %}">{% trans "Mail" %}
+({{ messages_inbox_count }})</a></li>
             {% endif %}
             <li id="tab_help"><a href="{% url 'machiavelli:help_index' %}">{% trans "Help" %}</a></li>
         {% endspaceless %}</ul>
