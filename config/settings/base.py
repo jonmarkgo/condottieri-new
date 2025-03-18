@@ -256,24 +256,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Site ID
 SITE_ID = 1
 
-DEBUG=True
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.jonmarkgo.com']
-
-# CSRF settings
-CSRF_TRUSTED_ORIGINS = ['https://local.jonmarkgo.com']
-CSRF_COOKIE_DOMAIN = 'local.jonmarkgo.com'
+# CSRF and Security settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://local.jonmarkgo.com',
+    'http://local.jonmarkgo.com',
+    'https://local.jonmarkgo.com:443',
+    'http://local.jonmarkgo.com:80'
+]
 CSRF_COOKIE_SECURE = True
-CSRF_USE_SESSIONS = True
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_DOMAIN = 'local.jonmarkgo.com'
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 # Session settings
-SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_DOMAIN = 'local.jonmarkgo.com'
 
 # Security settings
-SECURE_SSL_REDIRECT = False  # Set to True in production
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
